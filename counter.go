@@ -26,6 +26,22 @@ func (c *counter) Fail() int64 {
 	return atomic.AddInt64(&failureCounter, 1)
 }
 
+func (c *counter) SuccessCount() int64 {
+	return atomic.LoadInt64(&successCounter)
+}
+
+func (c *counter) FailureCount() int64 {
+	return atomic.LoadInt64(&failureCounter)
+}
+
+func (c *counter) successRate() int64 {
+	return (atomic.LoadInt64(&successCounter) * 100) / atomic.LoadInt64(&requestCounter)
+}
+
+func (c *counter) FailureRate() int64 {
+	return (atomic.LoadInt64(&failureCounter) * 100) / atomic.LoadInt64(&requestCounter)
+}
+
 func New() *counter {
 	return &counter{}
 }
