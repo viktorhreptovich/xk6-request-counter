@@ -10,12 +10,20 @@ func init() {
 	modules.Register("k6/x/counter", New())
 }
 
-var realCounter int64
+var requestCounter int64
+var successCounter int64
+var failureCounter int64
 
 type counter struct{}
 
-func (c *counter) Up() int64 {
-	return atomic.AddInt64(&realCounter, 1)
+func (c *counter) Success() int64 {
+	atomic.AddInt64(&requestCounter, 1)
+	return atomic.AddInt64(&successCounter, 1)
+}
+
+func (c *counter) Fail() int64 {
+	atomic.AddInt64(&requestCounter, 1)
+	return atomic.AddInt64(&failureCounter, 1)
 }
 
 func New() *counter {
