@@ -34,7 +34,7 @@ func (c *counter) FailureCount() int64 {
 	return atomic.LoadInt64(&failureCounter)
 }
 
-func (c *counter) successRate() int64 {
+func (c *counter) SuccessRate() int64 {
 	return (atomic.LoadInt64(&successCounter) * 100) / atomic.LoadInt64(&requestCounter)
 }
 
